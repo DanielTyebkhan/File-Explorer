@@ -1,4 +1,3 @@
-//imports
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -19,7 +18,6 @@ public class Background extends JPanel implements MouseListener{
     JMenuItem newfolder;
     String OS;
     public Background(){
-        //initializeds jcomponents and variables
         frame = new JFrame("Daniel's Explorer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700,500);
@@ -36,7 +34,6 @@ public class Background extends JPanel implements MouseListener{
         newfolder.addMouseListener(new NewFolderListener());
 
         scroller = new JScrollPane(this);
-        //checks operating systema and sets path accordingly for windows and mac   
         OS = System.getProperty("os.name");
         if(OS.startsWith("Windows")){
             path = "C:/";
@@ -111,7 +108,6 @@ public class Background extends JPanel implements MouseListener{
             temppath = path;
             path = path + buttontext + "/";
             File checkFile = new File(path);
-            //checks if the file can be opened then shows an error if it cannot otherwise shows that file
             if(checkFile.isFile()){
                 if(Desktop.isDesktopSupported()){
                     Desktop d = Desktop.getDesktop();
@@ -125,7 +121,6 @@ public class Background extends JPanel implements MouseListener{
                     }
                 }
             }
-            //tells the user if they do not have accses to the file
             try{
                 refreshBrowser();
             }catch(NullPointerException e){
@@ -135,7 +130,6 @@ public class Background extends JPanel implements MouseListener{
             }
         }
     }
-    //button listener for the back button which uses the get parentfile method to go back
     class BackButtonListener implements ActionListener{
         @Override 
         public void actionPerformed(ActionEvent a){
@@ -150,7 +144,6 @@ public class Background extends JPanel implements MouseListener{
             }
         }
     }
-    //listener to create the folder
     class NewFolderListener implements MouseListener{
         @Override
         public void mouseExited(MouseEvent e){
@@ -163,7 +156,6 @@ public class Background extends JPanel implements MouseListener{
         @Override
         public void mouseReleased(MouseEvent e){
         }
-        //checks if the new folder name is alllowed
         @Override
         public void mousePressed(MouseEvent e){
             rcwindowm.setVisible(false);
@@ -191,7 +183,6 @@ public class Background extends JPanel implements MouseListener{
         @Override
         public void mouseReleased(MouseEvent e){
         }
-        //mouse listener which checks if the new file name is allowed
         @Override
         public void mousePressed(MouseEvent e){
             rcwindowm.setVisible(false);
