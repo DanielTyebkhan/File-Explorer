@@ -9,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Main class for the File Explorer
+ */
 public class Background extends JPanel {
     private JFrame frame;
     private JScrollPane scroller;
@@ -76,13 +79,14 @@ public class Background extends JPanel {
         OS = System.getProperty("os.name");
         if(OS.startsWith("Windows")){
             path = "C:/";
-        }else if(OS.startsWith("Mac")){
+        }else if(OS.startsWith("Mac") || OS.startsWith("Linux")){
             path = "/";
-        }else if (OS.startsWith("Linux")){
-            path = "/home";
         }
     }
 
+    /**
+     * Shows the right click menu when the user right clicks
+     */
     class rightClickListener implements MouseListener{
         @Override
         public void mouseExited(MouseEvent e){
@@ -116,12 +120,24 @@ public class Background extends JPanel {
         }
     }
 
+    /**
+     * Provides button functionality for folders and files
+     */
     class ButtonListeners implements ActionListener {
         String buttontext;
+
+        /**
+         * Constructor
+         * @param b the button for the listener to correspond to
+         */
         public ButtonListeners(JButton b){
             buttontext = b.getText();
         }
 
+        /**
+         * Completes the appropriate action based on the button the user selects
+         * @param a The event triggering the listener call
+         */
         @Override
         public void actionPerformed(ActionEvent a){
             temppath = path;
@@ -143,13 +159,21 @@ public class Background extends JPanel {
             try{
                 refreshBrowser();
             }catch(NullPointerException e){
-                JOptionPane.showMessageDialog(null, "error, you cant access that");
+                JOptionPane.showMessageDialog(null, "Error, you cant access that");
                 path = temppath;
                 refreshBrowser();
             }
         }
     }
+
+    /**
+     * The listener for the back button
+     */
     class BackButtonListener implements ActionListener{
+        /**
+         * Moves the user back one window when the back button is triggered
+         * @param a The pressing of the back button
+         */
         @Override 
         public void actionPerformed(ActionEvent a){
             try{
@@ -163,6 +187,10 @@ public class Background extends JPanel {
             }
         }
     }
+
+    /**
+     * The listener for the user selecting new folder from the right click menu
+     */
     class NewFolderListener implements MouseListener{
         @Override
         public void mouseExited(MouseEvent e){
@@ -175,6 +203,11 @@ public class Background extends JPanel {
         @Override
         public void mouseReleased(MouseEvent e){
         }
+
+        /**
+         * Makes a new folder
+         * @param e The selecting of the make folder option
+         */
         @Override
         public void mousePressed(MouseEvent e){
             rcwindowm.setVisible(false);
@@ -190,6 +223,10 @@ public class Background extends JPanel {
         public void mouseClicked(MouseEvent e){
         }
     }
+
+    /**
+     * The listener for the user selecting new folder from the right click menu
+     */
     class NewFileListener implements MouseListener{
         @Override
         public void mouseExited(MouseEvent e){
@@ -202,6 +239,11 @@ public class Background extends JPanel {
         @Override
         public void mouseReleased(MouseEvent e){
         }
+
+        /**
+         * Makes a new file
+         * @param e The selecting of the make file option
+         */
         @Override
         public void mousePressed(MouseEvent e){
             rcwindowm.setVisible(false);
