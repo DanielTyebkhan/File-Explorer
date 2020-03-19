@@ -10,16 +10,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Background extends JPanel implements MouseListener {
-    JFrame frame;
-    JScrollPane scroller;
-    JButton backbutton;
-    String path;
-    String temppath;
-    File currentFile;
-    JPopupMenu rcwindowm;
-    JMenuItem newfile;
-    JMenuItem newfolder;
-    String OS;
+    private JFrame frame;
+    private JScrollPane scroller;
+    private JButton backbutton;
+    private String path;
+    private String temppath;
+    private File currentFile;
+    private JPopupMenu rcwindowm;
+    private JMenuItem newfile;
+    private JMenuItem newfolder;
+    private String OS;
     public Background(){
         frame = new JFrame("Daniel's Explorer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,14 +37,8 @@ public class Background extends JPanel implements MouseListener {
         newfolder.addMouseListener(new NewFolderListener());
 
         scroller = new JScrollPane(this);
-        OS = System.getProperty("os.name");
-        if(OS.startsWith("Windows")){
-            path = "C:/";
-        }else if(OS.startsWith("Mac")){
-            path = "/";
-        }else if (OS.startsWith("Linux")){
-            path = "/home";
-        }
+
+        setPathFromOS();
         
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.addMouseListener(this);
@@ -66,6 +60,17 @@ public class Background extends JPanel implements MouseListener {
         }
         this.revalidate();
         frame.repaint();
+    }
+
+    private void setPathFromOS(){
+        OS = System.getProperty("os.name");
+        if(OS.startsWith("Windows")){
+            path = "C:/";
+        }else if(OS.startsWith("Mac")){
+            path = "/";
+        }else if (OS.startsWith("Linux")){
+            path = "/home";
+        }
     }
 
     @Override
