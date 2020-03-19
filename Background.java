@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class Background extends JPanel implements MouseListener {
+public class Background extends JPanel {
     private JFrame frame;
     private JScrollPane scroller;
     private JButton backbutton;
@@ -20,6 +20,10 @@ public class Background extends JPanel implements MouseListener {
     private JMenuItem newfile;
     private JMenuItem newfolder;
     private String OS;
+
+    /**
+     * Creates the file explorer based on the operating system
+     */
     public Background(){
         frame = new JFrame("Daniel's Explorer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +45,7 @@ public class Background extends JPanel implements MouseListener {
         setPathFromOS();
         
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.addMouseListener(this);
+        this.addMouseListener(new rightClickListener());
 
         refreshBrowser();
 
@@ -50,6 +54,9 @@ public class Background extends JPanel implements MouseListener {
         frame.setVisible(true);
     }
 
+    /**
+     * Refreshes the window to display the current directory
+     */
     public void refreshBrowser(){
         this.removeAll();
         currentFile = new File(path);
@@ -62,6 +69,9 @@ public class Background extends JPanel implements MouseListener {
         frame.repaint();
     }
 
+    /**
+     * Sets the initial path based on the operating system
+     */
     private void setPathFromOS(){
         OS = System.getProperty("os.name");
         if(OS.startsWith("Windows")){
@@ -73,35 +83,37 @@ public class Background extends JPanel implements MouseListener {
         }
     }
 
-    @Override
-    public void mouseExited(MouseEvent e){
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e){
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e){
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e){
-        //shows the right click menu
-        if(e.getButton() == MouseEvent.BUTTON3){
-            rcwindowm.show(this, e.getX(), e.getY());
+    class rightClickListener implements MouseListener{
+        @Override
+        public void mouseExited(MouseEvent e){
         }
-        if(e.getButton() == MouseEvent.BUTTON1 && rcwindowm.isVisible()){
-            rcwindowm.setVisible(false);
+
+        @Override
+        public void mouseEntered(MouseEvent e){
         }
-    }
 
-    @Override
-    public void mouseClicked(MouseEvent e){
-    }
+        @Override
+        public void mouseReleased(MouseEvent e){
+        }
 
-    public static void main(String[] args){
-        Background b = new Background();
+        /**
+         * Displays the right click menu
+         * @param e The mouse event triggering the event
+         */
+        @Override
+        public void mousePressed(MouseEvent e){
+            //shows the right click menu
+            if(e.getButton() == MouseEvent.BUTTON3){
+                rcwindowm.show(frame.getComponent(0), e.getX(), e.getY());
+            }
+            if(e.getButton() == MouseEvent.BUTTON1 && rcwindowm.isVisible()){
+                rcwindowm.setVisible(false);
+            }
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e){
+        }
     }
 
     class ButtonListeners implements ActionListener {
@@ -215,5 +227,9 @@ public class Background extends JPanel implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e){
         }
+    }
+
+    public static void main(String[] args){
+        Background b = new Background();
     }
 }
