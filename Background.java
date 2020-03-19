@@ -1,12 +1,15 @@
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.event.*;
-import java.io.*;
-import java.io.File.*;
-import java.awt.Desktop.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-public class Background extends JPanel implements MouseListener{
+public class Background extends JPanel implements MouseListener {
     JFrame frame;
     JScrollPane scroller;
     JButton backbutton;
@@ -37,9 +40,10 @@ public class Background extends JPanel implements MouseListener{
         OS = System.getProperty("os.name");
         if(OS.startsWith("Windows")){
             path = "C:/";
-        }
-        if(OS.startsWith("Mac")){
+        }else if(OS.startsWith("Mac")){
             path = "/";
+        }else if (OS.startsWith("Linux")){
+            path = "/home";
         }
         
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -53,10 +57,8 @@ public class Background extends JPanel implements MouseListener{
     }
 
     public void refreshBrowser(){
-        //resets the window
         this.removeAll();
         currentFile = new File(path);
-        //prints the files in the folder as buttons
         for(String s: currentFile.list()){
             JButton b = new JButton(s);
             b.addActionListener(new ButtonListeners(b));
@@ -97,7 +99,7 @@ public class Background extends JPanel implements MouseListener{
         Background b = new Background();
     }
 
-    class ButtonListeners implements ActionListener{
+    class ButtonListeners implements ActionListener {
         String buttontext;
         public ButtonListeners(JButton b){
             buttontext = b.getText();
